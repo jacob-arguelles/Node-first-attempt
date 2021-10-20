@@ -20,6 +20,13 @@ let informacion = [
     edad: "48 años",
     celular: ["04146698579", "02682527046"],
   },
+  {
+    id: 4,
+    nombre: "emmanuel",
+    apellido: "garcia",
+    edad: "23 años",
+    celular: ["04146698579", "02682527046"],
+  },
 ];
 
 module.exports = informacion;
