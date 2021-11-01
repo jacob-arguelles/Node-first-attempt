@@ -53,11 +53,12 @@ app.get("/informacion/:id", (req, res, next) => {
 app.delete("/informacion/:id", (req, res) => {
   const { id } = req.params;
   console.log(`han solicitado un .DELETE para la id:${id}`);
-
+  const infoBorrado = modelInfo.findById(id);
   modelInfo
     .findByIdAndDelete(id)
     .then((resultado) => {
-      console.log(`Se ha borrado con exito la informacion ${resultado}`);
+      console.log(`Se ha borrado con exito la informacion ${infoBorrado}`);
+      res.status(202).end();
     })
     .catch((error) => {
       console.log("ha fallado el .DELETE, respondiendo con un statusCode: 400");
@@ -92,7 +93,7 @@ app.put("/informacion/:id", (req, res) => {
 app.post("/informacion", (req, res) => {
   console.log("Han realizado un .POST");
   const infor = req.body;
-  if (!infor || !infor.content) {
+  if (!infor.nombre || !infor.celular || !infor.apellido || !infor.edad) {
     console.log("Ha fallado el .POST");
     console.log("respondiendo con un statusCode: 400");
     return res.status(400).end();
