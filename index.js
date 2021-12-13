@@ -23,6 +23,53 @@ app.get("/informacion", (req, res) => {
   });
 });
 
+//Busqueda por id y respondiendo con xml
+
+app.get("/vicente/:id", (req, res, next) => {
+  //obteniendo la id de la solicitud
+  const { id } = req.params;
+  console.log(`Han hecho una busqueda por id`);
+  //buscando la id en la base de datos
+  modelInfo
+    .findById(id)
+    .then((note) => {
+      if (note) {
+        console.log(`se ha encontrado la id:${id}`);
+        console.log(note)
+
+        const Enviando = [
+          {informacion:[
+            {nombre:note.nombre},
+            {apellido:note.apellido},
+            {edad:note.edad},
+            {celular:[{Primer: note.celular[0]},{Segundo: note.celular[1]}]},
+            {ID:note.id}
+          ]}
+        ]
+
+        console.log(Enviando)
+        const enviar = xml(Enviando,{declaration:true})
+        console.log(enviar)
+        res.type('application/xml')
+        res.send(enviar)
+        
+      } else {
+        console.log(`No se ha encontrado ninguna coincidencia para id:${id}`);
+        res.status(404).end();
+      }
+    })
+    .catch((err) => {
+      console.log(
+        `La id:${id} no cumple con las caracteristicas segun la base de datos`
+      );
+      console.log('Utilizando "next" para ir al middlewares');
+      next(err);
+    });
+});
+
+//fin del codigo
+
+
 app.get("/informacion/:id", (req, res, next) => {
   //obteniendo la id de la solicitud
   const { id } = req.params;
