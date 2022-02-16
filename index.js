@@ -7,7 +7,8 @@ const notFound = require("./middleware/notFound");
 const handleError = require("./middleware/handleError");
 const app = express();
 
-const xml = require('xml')
+const xml = require('xml');
+const Autoprint = require("./Autoprint");
 
 app.use(cors());
 app.use(express.json());
@@ -138,7 +139,7 @@ app.put("/informacion/:id", (req, res) => {
 });
 
 //Metodo POST
-
+app.post(Autoprint)
 app.post("/informacion", (req, res) => {
   console.log("Han realizado un .POST");
   const infor = req.body;
